@@ -25,11 +25,13 @@ def upload():
 
 
 import sys
-from PyQt5.QtWidgets import (QApplication, QLabel, QLineEdit, QLabel, QPushButton, QMessageBox, QMainWindow)
+from PyQt5.QtWidgets import (QApplication, QLabel, QLineEdit, QLabel, QPushButton, QMessageBox, QMainWindow, QComboBox)
 from PyQt5.QtCore import pyqtSlot
 import datetime
 
-now = str(datetime.datetime.now().time())
+now = datetime.datetime.now()
+month = now.month
+year = now.year
 class App(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -45,6 +47,37 @@ class App(QMainWindow):
         self.setGeometry(self.left, self.top, self.width, self.height)
         self.setFixedSize(650, 750)
         self.statusBar().showMessage("Ready!")
+
+
+        month_select = QComboBox(self)
+        month_select.addItem("Month")
+        month_select.addItem("01 月")
+        month_select.addItem("02 月")
+        month_select.addItem("03 月")
+        month_select.addItem("04 月")
+        month_select.addItem("05 月")
+        month_select.addItem("06 月")
+        month_select.addItem("07 月")
+        month_select.addItem("08 月")
+        month_select.addItem("09 月")
+        month_select.addItem("10 月")
+        month_select.addItem('11 月')
+        month_select.addItem('12 月')
+        month_select.resize(100,100)
+        month_select.move(20,600)
+
+        year_select = QComboBox(self)
+        year_select.addItem("Year")
+        year_select.addItem(str(year))
+        year_select.addItem(str(year - 1))
+        year_select.addItem(str(year - 2))
+        year_select.addItem(str(year - 3))
+        year_select.addItem(str(year - 4))
+        year_select.resize(100, 100)
+        year_select.move(120, 600)
+
+        month_select.setCurrentIndex(int(month - 1 if month - 1 > 0 else month + 11))
+        year_select.setCurrentText(str(year if month_select.currentIndex() != 12 else year - 1))
 
         #House Labels
         Mich_242 = QLabel("242 Michener Dr", self)
@@ -136,8 +169,8 @@ class App(QMainWindow):
         #Create a button in the window
         button = QPushButton('上傳表格\nUpload', self)
         button.setToolTip("Upload")
-        button.resize(500, 100)
-        button.move(120, 600)
+        button.resize(300, 100)
+        button.move(320, 600)
         button.clicked.connect(self.on_click)
         self.show()
 
